@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "process/process.h"
+
 void run(char *file, char *output, int n_cpu)
 {
   printf("file: %s output: %s cpu: %i \n", file, output, n_cpu);
+
+  Process *process = process_init(50, file, 1, RUNNING);
+  printf("pid: %d, name: %s, priority: %i, state: %i\n",
+         process->pid, process->name, process->priority, process->state);
 }
 
 int main(int argc, char **argv)
