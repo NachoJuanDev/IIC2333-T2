@@ -7,16 +7,6 @@
 void run(char *file, char *output, int n_cpu)
 {
   printf("file: %s output: %s cpu: %i \n", file, output, n_cpu);
-
-  Process *process = process_init(50, file, 1, RUNNING);
-  Queue *queue = queue_init();
-
-  queue->process[0] = process;
-
-  printf("pid: %d, name: %s, priority: %i, state: %i\n",
-         queue->process[0]->pid, queue->process[0]->name, queue->process[0]->priority, queue->process[0]->state);
-
-  queue_destroy(queue);
 }
 
 int main(int argc, char **argv)
