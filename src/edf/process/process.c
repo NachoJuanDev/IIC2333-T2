@@ -4,7 +4,7 @@
 
 #include "process.h"
 
-Process *process_init(pid_t pid, char *name, int deadline, unsigned int start_time, int state)
+Process *process_init(pid_t pid, char *name, int deadline, int start_time, int state)
 {
   Process *process = malloc(sizeof(Process));
 
@@ -14,14 +14,19 @@ Process *process_init(pid_t pid, char *name, int deadline, unsigned int start_ti
   process->start_time = start_time;
   process->state = state;
   process->cpu = -1;
+  process->selections = 0;
+  process->interruptions = 0;
+  process->turnaround = 0;
+  process->response = 0;
+  process->waiting = 0;
 
   return process;
 }
 
-void process_add_behavior(Process *process,unsigned int n_behavior,unsigned int *behavior)
+void process_add_behavior(Process *process, int n_behavior, int *behavior)
 {
   process->n_behavior = n_behavior;
-  process->behavior = malloc(sizeof(unsigned int) * n_behavior);
+  process->behavior = malloc(sizeof(int) * n_behavior);
   for (int i = 0; i < n_behavior; i++)
   {
     process->behavior[i] = behavior[i];

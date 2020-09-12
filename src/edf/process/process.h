@@ -16,7 +16,7 @@ struct process
   int deadline;
 
   /** Tiempo de llegada */
-  unsigned int start_time;
+  int start_time;
 
   /** Estado del proceso */
   int state;
@@ -26,11 +26,28 @@ struct process
 
   /** Número de comportamientos */
 
-  unsigned int n_behavior;
+  int n_behavior;
 
   /** Comportamiento del proceso */
-  unsigned int *behavior;
+  int *behavior;
 
+  /** Número de veces que el proceso fue elegido */
+  int selections;
+
+  /** Número de veces que el proceso fue interrumpido */
+  int interruptions;
+
+  /** El turnaround time */
+  int turnaround;
+
+  /** El response time */
+  int response;
+
+  /** El waiting time */
+  int waiting;
+
+  /** Si el proceso terminó o no antes de su deadline, 1 implica que sı́ y 0 si no. */
+  int finished_correctly;
 };
 
 typedef enum state
@@ -42,10 +59,10 @@ typedef enum state
 } State;
 
 /** Inicia un proceso */
-Process *process_init(pid_t pid, char *name, int deadline, unsigned int start_time, int state);
+Process *process_init(pid_t pid, char *name, int deadline, int start_time, int state);
 
 /** Añade los comportamientos a un proceso */
-void process_add_behavior(Process *process, unsigned int n_behavior, unsigned int *behavior);
+void process_add_behavior(Process *process, int n_behavior, int *behavior);
 
 /** Libera la memoria utilizada por un proceso */
 void free_process(Process *process);
