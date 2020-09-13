@@ -13,7 +13,12 @@ void queue_destroy(Queue *queue)
 {
   for (int i = 0; i < 255; i++)
   {
-    free(queue->process[i]);
+    if (!queue->process[i])
+    {
+      break;
+    }
+
+    free_process(queue->process[i]);
   }
 
   free(queue);
