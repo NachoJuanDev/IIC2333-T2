@@ -31,6 +31,9 @@ struct process
   /** Comportamiento del proceso */
   int *behavior;
 
+  /** Lista de comportamientos del proceso */
+  int behaviors[255];
+
   /** Número de veces que el proceso fue elegido */
   int selections;
 
