@@ -5,42 +5,37 @@
 #include "process/process.h"
 #include "queue/queue.h"
 
-void run(char *file, char *output, int n_cpu)
+void run(char *fileName, char *outputFile, int n_cpu)
 {
-  printf("file: %s output: %s cpu: %i \n", file, output, n_cpu);
-}
+  printf("file: %s output: %s cpu: %i \n", fileName, outputFile, n_cpu);
 
-int main(int argc, char *argv[]) // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
-{
 
-  char const *const fileName = argv[1]; /* should check that argc > 1 */
   FILE *file = fopen(fileName, "r");    /* should check the result */
   char line[2048];
-
   while (fgets(line, sizeof(line), file))
   {
-
     char *token; // de acá hasta donde se indique salió de tutorialspoint.
-
     /* get the first token */
     token = strtok(line, " ");
     while (token != NULL)
     {
       printf(" %s\n", token);
-
       token = strtok(NULL, " "); // hasta acá salió de tutorialspoint.
     }
   }
-
   fclose(file); // Hasta ésta línea hay código sacado de stackoverflow
 
   FILE *fp; // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
   int myInt = 5;
-  fp = fopen("Output.csv", "w");
+  fp = fopen(outputFile, "w");
   char *saludo = "HOLA,";
   fprintf(fp, "%s This is being written in the file. This is an int variable: %d", saludo, myInt);
   fclose(fp); // Hasta ésta línea hay código sacado de stackoverflow
 
+}
+
+int main(int argc, char *argv[]) // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
+{
   int n_cpu;
 
   if (argc < 3) // Los argumentos no fueron pasado
