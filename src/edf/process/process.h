@@ -48,6 +48,15 @@ struct process
 
   /** Si el proceso terminó o no antes de su deadline, 1 implica que sı́ y 0 si no. */
   int finished_correctly;
+
+  /* indicador de cuál es la ráfaga */
+  int n_rafaga;
+
+  /* indicador de avance en la ráfaga */
+  int avance_rafaga;
+
+  /* indicador de cuantas veces fue agregado a la cpu */
+  int n_veces_agregado;
 };
 
 typedef enum state
@@ -66,3 +75,6 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior);
 
 /** Libera la memoria utilizada por un proceso */
 void free_process(Process *process);
+
+/* Revisa el proceso y se actualzia según su estado */
+void process_check(Process *process);
