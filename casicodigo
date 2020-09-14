@@ -1,4 +1,61 @@
 
+lista_de_procesos = [...]
+
+time = 0
+
+cpu;
+
+while (condition) {
+0° = Actualizar estado de la simulación (Actualizar los distintos estados y 
+variables de los procesos para simular el avance del tiempo de la simulación.)
+    To Do:
+        - QUEUE debe tener más colas (Para FINISHED, WAITING, READY, RUNNING)
+        - CPU debe tener una referencia a los procesos
+        - PROCESS Tiene que tener una variable que indique en que rafaga está 
+        y cuanto a avanzado de esa rafaga
+        - PROCESS Tiene que tener un atributo que indique cuantas veces fue agregado a la cpu
+        - PROCESS debe tener un método para actualizar sus estados y variables según en que este state esté
+        - QUEUE debe tener un método para recorrer la cola principal de todos los procesos y ejecutar el método anterior 
+        o quizás QUEUE puede implementarlo, pero me hace más sentido que cada proceso 'se vea a sí mismo' 
+
+1° = Revisar que procesos terminaron y quitarlos de la cpu y moverlos de la cola RUNNING a la cola FINISHED;
+    To Do: 
+        - CPU debe tener un método para revisar si los procesos terminaron
+        - QUEUE debe tener un método para mover procesos de una cola a otra 
+        y dejar las colas ordenadas (sin espacios vacios) (A lo mejor me saco una lista ligada para hacer esto más fácil y rápido)
+
+2° = buscar procesos que lleguen en el tiempo actual y moverlos a la cola READY 
+(Todos los procesos parten con tareas de cpu, así que sería intuitivo tenerlos aquí);
+    To Do:
+        - QUEUE debe tener un método para revisar su cola principal para buscar procesos que lleguen 
+        en un tiempo TIME y pasarlos a la cola READY
+
+3° = Buscar los procesos que pueden pasar a estado READY de la cola WAITING;
+    To Do:
+        - QUEUE debe tener un método para pasar procesos de la cola WAITING a la cola READY
+
+4° = Elegiría los mejores procesos de la cola READY según cantidad de núcleos (como máximo);
+    To Do:
+        - QUEUE Retorna los mejores procesos de la cola READY 
+
+5° = Si hay cores disponible, paso los mejores procesos a los cores y muevo los procesos a la cola RUNNING ;
+    To Do:
+
+6° = Si no quedan procesos del paso 4 por asignar, paso al siguiente ciclo
+    To Do:
+        - Habrá alguna función o bloque de código que setee y limpie cosas para empezar el siguiente ciclo correctamente 
+         o lo detenga de ser necesario (cola de FINISHED llena)
+;
+7° = Con los procesos restantes, los compararía con los que están en la cpu desde el ciclo anterior 
+y los cambiaría según corresponda moviendo los procesos de colas;
+    To Do:
+        - CPU tiene un método para interrumpir un proceso y agregar un nuevo proceso a su cpu
+
+8° = Paso al sigiente ciclo;
+    To Do:
+        - Same paso 6
+}
+
 
 void run(char *file, char *output, int n_cpu)
 {
