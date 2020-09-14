@@ -36,10 +36,12 @@ void free_queue(Queue *queue);
 /** hace que los procesos chequeen sus estados y se actualicen */
 void queue_process_checking(Queue *queue);
 
-
 /** Mueve un proceso de la cola source en la posición pos_source a la cola target */
 void queue_move_process(Queue *queue, State source, int pos_source, State target);
 
-/** Recorre la lista y toma todos los procesos que inician en el tiempo
-actual y los mueve a ready en el último espacio indicado por n_ready */
+/** Recorre la cola process y mueve todos los procesos que inician en el tiempo
+actual y los mueve a la cola ready */
 void queue_inactive_to_ready(Queue *queue, int tiempo);
+
+/** Mueve los procesos finalizados de la cola running a la cola finished */
+void queue_running_to_finished(Queue *queue, int tiempo);

@@ -113,6 +113,17 @@ void queue_inactive_to_ready(Queue *queue, int tiempo)
   }
 }
 
+void queue_running_to_finished(Queue *queue, int tiempo)
+{
+  for (int i = 0; i < queue->n_running; i++)
+  {
+    if (queue->running[i]->state == FINISHED)
+    {
+      queue_move_process(queue, RUNNING, i, FINISHED);
+    }
+  }
+}
+
 void free_queue(Queue *queue)
 {
   /** 
