@@ -17,13 +17,13 @@ struct queue
 
   /** Número de procesos */
   int n_process;
-  /*  numero de procesos terminados */
+  /**  numero de procesos terminados */
   int n_finished;
-  /*  numero de procesos en espera */
+  /**  numero de procesos en espera */
   int n_waiting;
-  /*  numero de procesos en ready */
+  /**  numero de procesos en ready */
   int n_ready;
-  /*  numero de procesos corriendo */
+  /**  numero de procesos corriendo */
   int n_running;
 };
 
@@ -33,9 +33,18 @@ Queue *queue_init(int n_process);
 /** Destruye una cola y sus procesos */
 void free_queue(Queue *queue);
 
-/* hace que los procesos chequeen sus estados y se actualicen */
+/** hace que los procesos chequeen sus estados y se actualicen */
 void queue_process_checking(Queue *queue);
 
-/* Recorre la lista y toma todos los procesos que inician en el tiempo
-actual y los mueve a ready en el último espacio indicado por n_ready*/
-void from_nothing_to_ready(Queue *queue, int tiempo);
+/** Mueve un proceso de la cola source en la posición pos_source a la cola target */
+void queue_move_process(Queue *queue, State source, int pos_source, State target);
+
+/** Recorre la cola process y mueve todos los procesos que inician en el tiempo
+actual y los mueve a la cola ready */
+void queue_inactive_to_ready(Queue *queue, int tiempo);
+
+/** Mueve los procesos finalizados de la cola running a la cola finished */
+void queue_waiting_to_ready(Queue *queue);
+
+/** Mueve los procesos ready de la cola waiting a la cola ready */
+void queue_waiting_to_ready(Queue *queue);

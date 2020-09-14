@@ -103,7 +103,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
 
   printf("/* Testing de revisar cola con tiempo actual y moverlos a ready*/\n");
   printf("%s \n", lista_queue->process[0]->name);
-  from_nothing_to_ready(lista_queue, 3);
+  queue_inactive_to_ready(lista_queue, 3);
   printf("%s \n", lista_queue->ready[0]->name);
 
   printf("/* Testing de mover elementos de la lista*/\n");
