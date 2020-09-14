@@ -50,3 +50,23 @@ void free_cpu(CPU *cpu)
   }
   free(cpu);
 }
+
+int free_core(CPU *cpu, int n_core)
+{
+  if (cpu->cores[n_core]->proceso_actual != NULL)
+  {
+    if (cpu->cores[n_core]->proceso_actual->state == 3)
+    {
+      cpu->cores[n_core]->proceso_actual = NULL;
+      return 1;
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  else
+  {
+    return 2;
+  }
+}

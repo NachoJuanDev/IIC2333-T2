@@ -88,19 +88,45 @@ void run(char *fileName, char *outputFile, int n_cpu)
     proceso_actual += 1;
   }
 
+  /* COMIENZO Testing */
+
   CPU *cpu_test;
   int numero = 3;
   cpu_test = cpu_init(numero);
   cpu_add_process(cpu_test, 0, lista_queue->process[0]);
   printf("%s \n", cpu_test->cores[0]->proceso_actual->name);
 
-  free_cpu(cpu_test);
+  /*test chequeo procesos */
+  queue_process_checking(lista_queue);
 
+  /* test revisión de el core N*/
+  lista_queue->process[0]->state = 3;
+  int resultado = free_core(cpu_test, 0);
+  if (cpu_test->cores[0]->proceso_actual == NULL)
+  {
+    printf("OLAAA \n");
+  }
+  printf("%d \n", resultado);
+
+  /* Testing de revisar cola con tiempo actual y moverlos a ready*/
+  printf("%s \n", lista_queue->process[0]->name);
+  from_nothing_to_ready(lista_queue, 3);
+  printf("%s \n", lista_queue->ready[0]->name);
+
+  /* Testing de mover elementos de la lista*/
+  lista_queue->ready[1] = lista_queue->ready[0];
+  lista_queue->ready[0] = NULL;
+  printf("%s \n", lista_queue->ready[1]->name);
+
+  /* FIN Testing */
+
+  /* A continuacón se realiza el guardado y eliminado de todo*/
+
+  free_cpu(cpu_test);
   queue_destroy(lista_queue);
 
   fclose(file); // Hasta ésta línea hay código sacado de stackoverflow
-
-  FILE *fp; // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
+  FILE *fp;     // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
   int myInt = 5;
   fp = fopen(outputFile, "w");
   char *saludo = "HOLA,";
@@ -108,7 +134,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
   fclose(fp); // Hasta ésta línea hay código sacado de stackoverflow
 }
 
-int main(int argc, char *argv[]) // Desde ésta línea hasta la marcada hay código sacado de stackoverflow
+int main(int argc, char *argv[])
 {
   int n_cpu;
 

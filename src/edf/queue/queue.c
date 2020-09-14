@@ -1,4 +1,18 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
 #include <stdlib.h>
+#include <sys/types.h>
+
+#include <unistd.h>
+#include <sys/wait.h>
+
+#include <errno.h>
+#include <signal.h>
+
+#include <time.h>
+#include <sys/time.h>
 
 #include "queue.h"
 
@@ -17,6 +31,27 @@ Queue *queue_init(int n_process)
   queue->n_running = 0;
 
   return queue;
+}
+
+/* hace que los procesos chequeen sus estados y se actualicen */
+void queue_process_checking(Queue *queue)
+{
+  for (int i = 0; i < queue->n_process; i++)
+  {
+    process_check(queue->process[i]);
+  }
+}
+
+void from_nothing_to_ready(Queue *queue, int tiempo)
+{
+  for (int i = 0; i < queue->n_process; i++)
+  {
+    if (queue->process[i]->start_time == tiempo)
+    {
+      queue->ready[queue->n_ready] = queue->process[i];
+      queue->n_ready += 1;
+    }
+  }
 }
 
 void queue_destroy(Queue *queue)

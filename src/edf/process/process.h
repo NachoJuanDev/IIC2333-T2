@@ -75,3 +75,6 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior);
 
 /** Libera la memoria utilizada por un proceso */
 void free_process(Process *process);
+
+/* Revisa el proceso y se actualzia según su estado */
+void process_check(Process *process);

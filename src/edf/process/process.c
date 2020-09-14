@@ -1,6 +1,18 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
 #include <stdlib.h>
 #include <sys/types.h>
-#include <string.h>
+
+#include <unistd.h>
+#include <sys/wait.h>
+
+#include <errno.h>
+#include <signal.h>
+
+#include <time.h>
+#include <sys/time.h>
 
 #include "process.h"
 
@@ -30,6 +42,26 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior)
   for (int i = 0; i < n_behavior; i++)
   {
     process->behavior[i] = behavior[i];
+  }
+}
+
+void process_check(Process *process)
+{
+  if (process->state == 0)
+  {
+    printf("Estado 0 \n");
+  }
+  if (process->state == 1)
+  {
+    printf("Estado 1 \n");
+  }
+  if (process->state == 2)
+  {
+    printf("Estado 2 \n");
+  }
+  if (process->state == 3)
+  {
+    printf("Estado 3 \n");
   }
 }
 
