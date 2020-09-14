@@ -31,20 +31,20 @@ variables de los procesos para simular el avance del tiempo de la simulación.)
 
 3° = Buscar los procesos que pueden pasar a estado READY de la cola WAITING;
     To Do:
-        - QUEUE debe tener un método para pasar procesos de la cola WAITING a la cola READY
+        + QUEUE debe tener un método para pasar procesos de la cola WAITING a la cola READY (completo)
 
 4° = Elegiría los mejores procesos de la cola READY según cantidad de núcleos (como máximo);
     To Do:
         - QUEUE Retorna los mejores procesos de la cola READY (en proceso, no alcanzé a terminarla, la termino mañana)
 
-5° = Si hay cores disponible, paso los mejores procesos a los cores y muevo los procesos a la cola RUNNING ;
+5° = Si hay cores disponible, paso los mejores procesos a los cores y muevo los procesos a la cola RUNNING;
     To Do:
 
-6° = Si no quedan procesos del paso 4 por asignar, paso al siguiente ciclo
+6° = Si no quedan procesos del paso 4 por asignar, paso al siguiente ciclo;
     To Do:
         - Habrá alguna función o bloque de código que setee y limpie cosas para empezar el siguiente ciclo correctamente 
          o lo detenga de ser necesario (cola de FINISHED llena)
-;
+
 7° = Con los procesos restantes, los compararía con los que están en la cpu desde el ciclo anterior 
 y los cambiaría según corresponda moviendo los procesos de colas;
     To Do:
