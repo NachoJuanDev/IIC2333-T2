@@ -1,29 +1,18 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-
 #include <stdlib.h>
-#include <sys/types.h>
-
-#include <unistd.h>
-#include <sys/wait.h>
-
-#include <errno.h>
-#include <signal.h>
-
-#include <time.h>
-#include <sys/time.h>
 
 #include "queue.h"
 
 Queue *queue_init(int n_process)
 {
-  Queue *queue = malloc(sizeof(Queue));                  /* creamos el queue*/
-  queue->process = malloc(sizeof(Process) * n_process);  /*creamos lista de procesos sin iniciar*/
-  queue->finished = malloc(sizeof(Process) * n_process); /*creamos lista de procesos terminados*/
-  queue->waiting = malloc(sizeof(Process) * n_process);  /*creamos lista de procesos en espera*/
-  queue->ready = malloc(sizeof(Process) * n_process);    /*creamos lista de procesos ready*/
-  queue->running = malloc(sizeof(Process) * n_process);  /*creamos lista de procesos corriendo*/
+  Queue *queue = malloc(sizeof(Queue));                 /* creamos el queue*/
+  queue->process = calloc(n_process, sizeof(Process));  /*creamos lista de procesos sin iniciar*/
+  queue->finished = calloc(n_process, sizeof(Process)); /*creamos lista de procesos terminados*/
+  queue->waiting = calloc(n_process, sizeof(Process));  /*creamos lista de procesos en espera*/
+  queue->ready = calloc(n_process, sizeof(Process));    /*creamos lista de procesos ready*/
+  queue->running = calloc(n_process, sizeof(Process));  /*creamos lista de procesos corriendo*/
   queue->n_process = n_process;
   queue->n_finished = 0;
   queue->n_waiting = 0;
@@ -54,15 +43,13 @@ void from_nothing_to_ready(Queue *queue, int tiempo)
   }
 }
 
-void queue_destroy(Queue *queue)
+void free_queue(Queue *queue)
 {
-  /* todo proceso a eliminar estará en finished, porque ahí terminará el programa */
-  for (int i = 0; i < queue->n_finished; i++) // cambié el límite por otra variable para tener consistencia
-  {
-    free_process(queue->finished[i]);
-  }
+  /** 
+   * No se deben quitar nuna las referencias de la cola process,
+   * solo se deben copiar a las demás colas y las demás colas pueden borrar y mover sus referencias
+  */
 
-  /* para efectos de prueba, dejaré el código para borrar procesos generales*/
   for (int i = 0; i < queue->n_process; i++)
   {
     free_process(queue->process[i]);

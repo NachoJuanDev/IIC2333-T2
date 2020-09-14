@@ -31,7 +31,7 @@ struct queue
 Queue *queue_init(int n_process);
 
 /** Destruye una cola y sus procesos */
-void queue_destroy(Queue *queue);
+void free_queue(Queue *queue);
 
 /* hace que los procesos chequeen sus estados y se actualicen */
 void queue_process_checking(Queue *queue);

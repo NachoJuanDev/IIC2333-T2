@@ -11,9 +11,6 @@ struct cpu_core
   /** Número del núcleo */
   int n_core;
 
-  /** Proceso actual */
-  pid_t process_pid;
-
   /* puntero proceso */
   Process *proceso_actual;
 };
@@ -44,4 +41,4 @@ void free_cpu(CPU *cpu);
 
 /** Revisa si el proceso alojado en el core N para ver si terminó */
 /* retorna 1 si terminó, retorna 0 si no lo hizo, retorna 2 si el core está vacío*/
-int free_core(CPU *cpu, int n_core);
+int core_free_finished_process(CPU *cpu, int n_core);
