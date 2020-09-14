@@ -21,11 +21,10 @@ struct process
   /** Estado del proceso */
   int state;
 
-  /** CPU */
+  /** CPU en la que se encuentra*/
   int cpu;
 
   /** Número de comportamientos */
-
   int n_behavior;
 
   /** Comportamiento del proceso */
@@ -49,22 +48,22 @@ struct process
   /** Si el proceso terminó o no antes de su deadline, 1 implica que sı́ y 0 si no. */
   int finished_correctly;
 
-  /* indicador de cuál es la ráfaga */
+  /** Indicador de cuál es la ráfaga actual */
   int n_rafaga;
 
-  /* indicador de avance en la ráfaga */
+  /** Indicador de avance de la ráfaga actual */
   int avance_rafaga;
 
-  /* indicador de cuantas veces fue agregado a la cpu */
+  /** Indicador de cuantas veces fue agregado a la cpu */
   int n_veces_agregado;
 };
 
 typedef enum state
 {
-  RUNNING,
-  READY,
-  WAITING,
-  FINISHED,
+  RUNNING, // Proceso corriendo en un CORE de CPU
+  READY, // Proceso listo para ser asignado a un CORE de CPU
+  WAITING, // Proceso en espera de I/O
+  FINISHED, // Proceso Finalizado
   INACTIVE // Por complitud. No ha sido cargado a la simulación y Se encuentran en la cola process
 } State;
 
@@ -77,5 +76,5 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior);
 /** Libera la memoria utilizada por un proceso */
 void free_process(Process *process);
 
-/* Revisa el proceso y se actualzia según su estado */
+/** Revisa el proceso y se actualzia según su estado */
 void process_check(Process *process);

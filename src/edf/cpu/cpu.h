@@ -39,6 +39,7 @@ void cpu_add_process(CPU *cpu, int n_core, Process *process);
 /** Libera la memoria utilizada por una CPU */
 void free_cpu(CPU *cpu);
 
-/** Revisa si el proceso alojado en el core N para ver si terminó */
-/* retorna 1 si terminó, retorna 0 si no lo hizo, retorna 2 si el core está vacío*/
+/** Revisa si el proceso alojado en el core N para ver si terminó 
+ * retorna 1 si terminó, retorna 0 si no lo hizo, retorna 2 si el core está vacío
+*/
 int core_free_finished_process(CPU *cpu, int n_core);
