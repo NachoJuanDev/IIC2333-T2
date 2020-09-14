@@ -24,7 +24,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
   int numero_procesos = atoi(fgets(line, sizeof(line), file)); /* El número de procesos */
   printf("el numero de procesos es %d \n", numero_procesos);
   /* Creamos lista de procesos */
-  Queue *lista_queue = queue_init();
+  Queue *lista_queue = queue_init(numero_procesos);
   int proceso_actual = 0;
 
   while (fgets(line, sizeof(line), file))
@@ -72,11 +72,12 @@ void run(char *fileName, char *outputFile, int n_cpu)
     printf("%d \n", proceso->deadline);
     printf("%d \n", proceso->start_time);
     printf("%d \n", proceso->state);
-    proceso->n_behavior = numero_rafagas;
+
+    process_add_behavior(proceso, numero_rafagas, rafagas);
+
     for (int i = 0; i < numero_rafagas; i++)
     {
-      proceso->behaviors[i] = rafagas[i];
-      printf("%d \n", proceso->behaviors[i]);
+      printf("%d \n", proceso->behavior[i]);
     }
 
     lista_queue->process[proceso_actual] = proceso;
