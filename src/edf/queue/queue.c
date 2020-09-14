@@ -7,12 +7,12 @@
 
 Queue *queue_init(int n_process)
 {
-  Queue *queue = malloc(sizeof(Queue));                 /* creamos el queue*/
-  queue->process = calloc(n_process, sizeof(Process));  /*creamos lista de procesos sin iniciar*/
-  queue->finished = calloc(n_process, sizeof(Process)); /*creamos lista de procesos terminados*/
-  queue->waiting = calloc(n_process, sizeof(Process));  /*creamos lista de procesos en espera*/
-  queue->ready = calloc(n_process, sizeof(Process));    /*creamos lista de procesos ready*/
-  queue->running = calloc(n_process, sizeof(Process));  /*creamos lista de procesos corriendo*/
+  Queue *queue = malloc(sizeof(Queue));                 /* creamos el queue */
+  queue->process = calloc(n_process, sizeof(Process));  /* creamos lista de procesos sin iniciar */
+  queue->finished = calloc(n_process, sizeof(Process)); /* creamos lista de procesos terminados */
+  queue->waiting = calloc(n_process, sizeof(Process));  /* creamos lista de procesos en espera */
+  queue->ready = calloc(n_process, sizeof(Process));    /* creamos lista de procesos ready */
+  queue->running = calloc(n_process, sizeof(Process));  /* creamos lista de procesos corriendo */
   queue->n_process = n_process;
   queue->n_finished = 0;
   queue->n_waiting = 0;

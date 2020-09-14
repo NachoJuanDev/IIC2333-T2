@@ -17,13 +17,13 @@ struct queue
 
   /** Número de procesos */
   int n_process;
-  /*  numero de procesos terminados */
+  /**  numero de procesos terminados */
   int n_finished;
-  /*  numero de procesos en espera */
+  /**  numero de procesos en espera */
   int n_waiting;
-  /*  numero de procesos en ready */
+  /**  numero de procesos en ready */
   int n_ready;
-  /*  numero de procesos corriendo */
+  /**  numero de procesos corriendo */
   int n_running;
 };
 

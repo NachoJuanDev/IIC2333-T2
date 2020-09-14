@@ -11,7 +11,7 @@ struct cpu_core
   /** Número del núcleo */
   int n_core;
 
-  /* puntero proceso */
+  /** puntero proceso */
   Process *proceso_actual;
 };
 
