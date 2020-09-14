@@ -13,6 +13,9 @@ struct cpu_core
 
   /** Proceso actual */
   pid_t process_pid;
+
+  /* puntero proceso */
+  Process *proceso_actual;
 };
 
 struct cpu;

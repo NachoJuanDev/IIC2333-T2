@@ -1,19 +1,23 @@
 
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+
 #include <stdlib.h>
 #include <sys/types.h>
+
 #include <unistd.h>
 #include <sys/wait.h>
+
 #include <errno.h>
 #include <signal.h>
+
 #include <time.h>
 #include <sys/time.h>
 
 #include "process/process.h"
 #include "queue/queue.h"
+#include "cpu/cpu.h"
 
 void run(char *fileName, char *outputFile, int n_cpu)
 {
@@ -83,6 +87,14 @@ void run(char *fileName, char *outputFile, int n_cpu)
     lista_queue->process[proceso_actual] = proceso;
     proceso_actual += 1;
   }
+
+  CPU *cpu_test;
+  int numero = 3;
+  cpu_test = cpu_init(numero);
+  cpu_add_process(cpu_test, 0, lista_queue->process[0]);
+  printf("%s \n", cpu_test->cores[0]->proceso_actual->name);
+
+  free_cpu(cpu_test);
 
   queue_destroy(lista_queue);
 

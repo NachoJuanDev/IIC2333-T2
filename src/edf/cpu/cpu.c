@@ -38,6 +38,7 @@ void cpu_add_process(CPU *cpu, int n_core, Process *process)
 {
   CORE *core = cpu->cores[n_core];
   core->process_pid = process->pid;
+  core->proceso_actual = process;
   process->cpu = n_core;
 }
 
