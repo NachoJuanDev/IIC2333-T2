@@ -64,7 +64,8 @@ typedef enum state
   RUNNING,
   READY,
   WAITING,
-  FINISHED
+  FINISHED,
+  INACTIVE // Por complitud. No ha sido cargado a la simulación y Se encuentran en la cola process
 } State;
 
 /** Inicia un proceso */

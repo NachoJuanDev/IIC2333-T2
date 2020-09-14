@@ -19,9 +19,9 @@ variables de los procesos para simular el avance del tiempo de la simulación.)
 1° = Revisar que procesos terminaron y quitarlos de la cpu y moverlos de la cola RUNNING a la cola FINISHED;
     To Do: 
         - CPU debe tener un método para revisar si los procesos terminaron (hice un método que revisa si terminó el core N y lo vacía,
-          para usarlo con todos los core hay que sólo iterar sobre todos los cores). (creo que completo).
+          para usarlo con todos los core hay que sólo iterar sobre todos los cores). (Completo)
         - QUEUE debe tener un método para mover procesos de una cola a otra 
-        y dejar las colas ordenadas (sin espacios vacios) (FALTA)
+        y dejar las colas ordenadas (sin espacios vacios) (Completo)
 
 2° = buscar procesos que lleguen en el tiempo actual y moverlos a la cola READY 
 (Todos los procesos parten con tareas de cpu, así que sería intuitivo tenerlos aquí);
