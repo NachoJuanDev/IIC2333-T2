@@ -44,4 +44,7 @@ actual y los mueve a la cola ready */
 void queue_inactive_to_ready(Queue *queue, int tiempo);
 
 /** Mueve los procesos finalizados de la cola running a la cola finished */
-void queue_running_to_finished(Queue *queue, int tiempo);
+void queue_waiting_to_ready(Queue *queue);
+
+/** Mueve los procesos ready de la cola waiting a la cola ready */
+void queue_waiting_to_ready(Queue *queue);
