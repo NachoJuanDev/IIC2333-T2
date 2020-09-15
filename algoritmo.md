@@ -10,7 +10,7 @@ variables de los procesos para simular el avance del tiempo de la simulación.)
     - CPU debe tener una referencia a los procesos (completo)
     - PROCESS Tiene que tener una variable que indique en que rafaga está y cuanto a avanzado de esa rafaga (completo)
     - PROCESS Tiene que tener un atributo que indique cuantas veces fue agregado a la cpu (completo)
-    - **PROCESS debe tener un método para actualizar sus estados y variables según en que este state esté** (falta sólo el interior de la función, es llegar y ver que atributos deberían cambiar, por eso lo dejé vacío)
+    - **PROCESS debe tener un método para actualizar sus estados y variables según en que state esté** (falta sólo el interior de la función, es llegar y ver que atributos deberían cambiar, por eso lo dejé vacío)
 
     - QUEUE debe tener un método para recorrer la cola principal de todos los procesos y ejecutar el método anterior (completo)
 
@@ -48,16 +48,13 @@ Revisar que procesos terminaron y quitarlos de la cpu y moverlos de la cola RUNN
 
 ## Paso 2
 
-Buscar procesos que lleguen en el tiempo actual y moverlos a la cola READY 
-(Todos los procesos parten con tareas de cpu, así que sería intuitivo tenerlos aquí); 
+Buscar procesos que lleguen en el tiempo actual y moverlos a la cola READY; 
 
 * To Do:
-    - QUEUE debe tener un método para revisar su cola principal para buscar procesos que lleguen 
-
-    en un tiempo TIME y pasarlos a la cola READY (completo) (ojo pasa todos los procesos y los aloja en lo que DEBERIA ser el último espacio
+    - QUEUE debe tener un método para revisar su cola principal para buscar procesos que lleguen en un tiempo TIME y pasarlos a la cola READY (completo)
 
 * Implementación:
-    - queue_inactive_to_readyFalta:
+    - queue_inactive_to_ready
 
 ## Paso 3
 
@@ -74,17 +71,16 @@ Buscar los procesos que pueden pasar a estado READY de la cola WAITING;
 Elegiría los mejores procesos de la cola READY según cantidad de núcleos (como máximo); 
 
 * To Do:
-    - **QUEUE debe tener un método que retorna el mejor proceso de la cola READY** (DEBERIA FUNCIONAR)
-    - **CPU debe tener un método que retorna el peor proceso de sus cores** (DEBERIA FUNCIONAR)
-    - **PROCESS debe tener un método que nos de la puntuación de un proceso o compare procesos entregando el mejor** (DEBERIA FUNCIONAR)
+    - QUEUE debe tener un método que retorna el mejor proceso de la cola READY (DEBERIA FUNCIONAR)
+    - CPU debe tener un método que retorna el peor proceso de sus cores (DEBERIA FUNCIONAR)
+    - PROCESS debe tener un método que nos de la puntuación de un proceso o compare procesos entregando el mejor (DEBERIA FUNCIONAR)
+    - **CPU debe tener un método para interrumpir un proceso**
 
 * Implementación:
     - Obtenemos el mejor proceso de la cola READY, y vemos si lo podemos asiganr a un core
         - Se pudo asignar, se repite el paso 4 
         - Si no pudo asignar, lo comparamos con el peor proceso de la CPU
-            - Si el mejor proceso tiene más prioridad que el peor de la cpu, 
-
-            se cambia (Interrupción, el proceso de la cpu se va a READY) y se repite el paso 4
+            - Si el mejor proceso tiene más prioridad que el peor de la cpu, se cambia (Interrupción, el proceso de la cpu se va a READY) y se repite el paso 4
 
             - Si no, se termina y se pasa al siguiente tick
 
