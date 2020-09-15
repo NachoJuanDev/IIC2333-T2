@@ -102,6 +102,46 @@ void queue_move_process(Queue *queue, State source, int pos_source, State target
   }
 }
 
+void queue_move_process_pointer(Queue *queue, State source, Process *process, State target)
+{
+  Process **cola;
+  int n_cola;
+  if (source == RUNNING)
+  {
+    cola = queue->running;
+    n_cola = queue->n_running;
+  }
+  else if (source == READY)
+  {
+    cola = queue->ready;
+    n_cola = queue->n_ready;
+  }
+  else if (source == WAITING)
+  {
+    cola = queue->waiting;
+    n_cola = queue->n_waiting;
+  }
+  else if (source == FINISHED)
+  {
+    cola = queue->finished;
+    n_cola = queue->n_finished;
+  }
+  else if (source == INACTIVE)
+  {
+    cola = queue->process;
+    n_cola = queue->n_process;
+  }
+
+  for (int i = 0; i < n_cola; i++)
+  {
+    if (cola[n_cola]->pid == process->pid)
+    {
+      queue_move_process(queue, source, i, target);
+      break;
+    }
+  }
+}
+
 void queue_inactive_to_ready(Queue *queue, int tiempo)
 {
   int i = 0;

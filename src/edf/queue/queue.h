@@ -39,6 +39,9 @@ void queue_process_checking(Queue *queue);
 /** Mueve un proceso de la cola source en la posición pos_source a la cola target */
 void queue_move_process(Queue *queue, State source, int pos_source, State target);
 
+/** Mueve un proceso de la cola source a la cola target. Recibe el puntero del proceso */
+void queue_move_process_pointer(Queue *queue, State source, Process *process, State target);
+
 /** Recorre la cola process y mueve todos los procesos que inician en el tiempo
 actual y los mueve a la cola ready */
 void queue_inactive_to_ready(Queue *queue, int tiempo);
