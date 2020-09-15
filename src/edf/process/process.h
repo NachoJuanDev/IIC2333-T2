@@ -49,7 +49,7 @@ struct process
   int finished_correctly;
 
   /** Indicador de cuál es la ráfaga actual */
-  int n_rafaga;
+  int current_rafaga;
 
   /** Indicador de avance de la ráfaga actual */
   int avance_rafaga;

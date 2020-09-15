@@ -21,6 +21,8 @@ Process *process_init(pid_t pid, char *name, int deadline, int start_time, int s
   process->turnaround = 0;
   process->response = 0;
   process->waiting = 0;
+  process->avance_rafaga = 0;
+  process->current_rafaga = 0;
 
   return process;
 }
@@ -39,19 +41,35 @@ void process_check(Process *process)
 {
   if (process->state == RUNNING)
   {
-    printf("Estado 0: RUNNING \n");
+    process->avance_rafaga++;
+    if (process->avance_rafaga == process->behavior[process->current_rafaga])
+    {
+      process->avance_rafaga = 0;
+      process->current_rafaga++;
+      if (process->current_rafaga == process->n_behavior)
+      {
+        process->state = FINISHED;
+      }
+      else
+      {
+        process->state = WAITING;
+      }
+    }
   }
   if (process->state == READY)
   {
-    printf("Estado 1: READY \n");
+    process->waiting++;
   }
   if (process->state == WAITING)
   {
-    printf("Estado 2: WAITING \n");
-  }
-  if (process->state == FINISHED)
-  {
-    printf("Estado 3: FINISHED \n");
+    process->avance_rafaga++;
+    process->waiting++;
+    if (process->avance_rafaga == process->behavior[process->current_rafaga])
+    {
+      process->avance_rafaga = 0;
+      process->current_rafaga++;
+      process->state = READY;
+    }
   }
 }
 
