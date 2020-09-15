@@ -1,5 +1,8 @@
-#include <sys/types.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 #include "cpu.h"
 #include "../process/process.h"
@@ -63,5 +66,46 @@ void core_free_finished_process(CPU *cpu)
         cpu->cores[n_core]->proceso_actual = NULL;
       }
     }
+  }
+}
+
+int cpu_worst_process(CPU *cpu)
+{
+  Process *proceso_aux;
+  int n = 0;
+  int existe = 0;
+  printf("HOLA a\n");
+  /* Primero hay que encontra algun proceso de la cpu */
+  while (n < cpu->n_cores)
+  {
+    printf("HOLA b\n");
+    if (cpu->cores[n]->proceso_actual != NULL)
+    {
+      printf("HOLA c\n");
+      proceso_aux = cpu->cores[n]->proceso_actual;
+      n = cpu->n_cores;
+      existe = 1;
+    }
+    else
+    {
+      printf("HOLA d\n");
+      n++;
+    }
+  }
+  if (existe == 1)
+  {
+    printf("HOLA e\n");
+    for (int i = 0; i < cpu->n_cores; i++)
+    {
+      if (cpu->cores[i]->proceso_actual != NULL)
+      {
+        proceso_aux = process_worst(proceso_aux, cpu->cores[i]->proceso_actual);
+      }
+    }
+    return proceso_aux->cpu;
+  }
+  else
+  {
+    return -1;
   }
 }

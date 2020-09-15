@@ -86,29 +86,57 @@ void run(char *fileName, char *outputFile, int n_cpu)
 
   CPU *cpu_test;
   cpu_test = cpu_init(n_cpu);
-  cpu_add_process(cpu_test, 0, lista_queue->process[0]);
-  printf("%s \n", cpu_test->cores[0]->proceso_actual->name);
+  //cpu_add_process(cpu_test, 0, lista_queue->process[0]);
+  //printf("%s \n", cpu_test->cores[0]->proceso_actual->name);
 
-  printf("/*test chequeo procesos */\n");
-  queue_process_checking(lista_queue);
+  //printf("/*test chequeo procesos */\n");
+  //queue_process_checking(lista_queue);
 
-  printf("/* test revisión de el core N*/\n");
-  lista_queue->process[0]->state = FINISHED;
-  core_free_finished_process(cpu_test);
-  if (cpu_test->cores[0]->proceso_actual == NULL)
-  {
-    printf("OLAAA \n");
-  }
+  //printf("/* test revisión de el core N*/\n");
+  //lista_queue->process[0]->state = FINISHED;
+  //core_free_finished_process(cpu_test);
+  //if (cpu_test->cores[0]->proceso_actual == NULL)
+  //{
+  //  printf("OLAAA \n");
+  //}
 
-  printf("/* Testing de revisar cola con tiempo actual y moverlos a ready*/\n");
-  printf("%s \n", lista_queue->process[0]->name);
-  queue_inactive_to_ready(lista_queue, 3);
-  printf("%s \n", lista_queue->ready[0]->name);
+  //printf("/* Testing de revisar cola con tiempo actual y moverlos a ready*/\n");
+  //printf("%s \n", lista_queue->process[0]->name);
+  //queue_inactive_to_ready(lista_queue, 3);
+  //printf("%s \n", lista_queue->ready[0]->name);
 
-  printf("/* Testing de mover elementos de la lista*/\n");
-  lista_queue->ready[1] = lista_queue->ready[0];
-  lista_queue->ready[0] = NULL;
-  printf("%s \n", lista_queue->ready[1]->name);
+  //printf("/* Testing de mover elementos de la lista*/\n");
+  //lista_queue->ready[1] = lista_queue->ready[0];
+  //lista_queue->ready[0] = NULL;
+  //printf("%s \n", lista_queue->ready[1]->name);
+
+  /* Testeo comparaciónes*/
+  Process *proceso_prueba;
+  proceso_prueba = process_compare(lista_queue->process[2], lista_queue->process[1]);
+  printf("%s \n", proceso_prueba->name);
+
+  /* Testeo mejor proceso de queue */
+  printf("HOLA a\n");
+  queue_move_process(lista_queue, INACTIVE, 0, READY);
+  queue_move_process(lista_queue, INACTIVE, 1, READY);
+  queue_move_process(lista_queue, INACTIVE, 2, READY);
+  printf("HOLA 1\n");
+  printf("%d \n", lista_queue->n_ready);
+  printf("HOLA 2\n");
+  proceso_prueba = queue_best_process(lista_queue);
+  printf("%s \n", proceso_prueba->name);
+
+  /* Testeo peor proceso de cpu */
+  printf("HOLA 3\n");
+  //cpu_add_process(cpu_test, 0, lista_queue->process[0]);
+  printf("HOLA 4\n");
+  cpu_add_process(cpu_test, 1, lista_queue->process[1]);
+  printf("HOLA 5\n");
+  cpu_add_process(cpu_test, 2, lista_queue->process[2]);
+  printf("HOLA 6\n");
+  int resultado;
+  resultado = cpu_worst_process(cpu_test);
+  printf("%d \n", resultado);
 
   /* FIN Testing */
 

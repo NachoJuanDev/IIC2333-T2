@@ -48,3 +48,7 @@ void queue_waiting_to_ready(Queue *queue);
 
 /** Mueve los procesos ready de la cola waiting a la cola ready */
 void queue_waiting_to_ready(Queue *queue);
+
+/* Encuentra el mejor proceso del queue, ojo hay que hacer in if antes, 
+porque la función asume que hay mínimo 1 */
+Process *queue_best_process(Queue *queue);

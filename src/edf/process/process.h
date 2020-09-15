@@ -79,5 +79,8 @@ void free_process(Process *process);
 /** Revisa el proceso y se actualzia según su estado */
 void process_check(Process *process);
 
-/** Revisa cual proceso el masyor y retorna el mayor. */
-Process process_compare(Process *process1, Process *process2)
+/** Revisa dos procesos y el proceso con mejor prioridad y lo retorna. */
+Process *process_compare(Process *process1, Process *process2);
+
+/* Compara dos procesos y retorna el con peor prioridad */
+Process *process_worst(Process *process1, Process *process2);
