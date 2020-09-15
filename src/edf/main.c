@@ -124,6 +124,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
       {
         /** Asigno al core vacio */
         cpu_add_process(cpu, core_empty, best_process);
+        /** Muevo el proceso a la cola running */
       }
       else
       {
@@ -135,6 +136,8 @@ void run(char *fileName, char *outputFile, int n_cpu)
         if (best_process == best_priority)
         {
           /** Se interrumpe el peor y se asigna el mejor */
+          /** Se mueve el peor a la cola ready */
+          /** Se mueve el mejor a la cola running */
         }
         else
         {
