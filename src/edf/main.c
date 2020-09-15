@@ -78,41 +78,78 @@ void write_output(char *outputFile)
 
 void run(char *fileName, char *outputFile, int n_cpu)
 {
-  printf("file: %s output: %s cpu: %i \n", fileName, outputFile, n_cpu);
 
-  Queue *lista_queue = populate_system(fileName);
+  Queue *queue = populate_system(fileName);
+  CPU *cpu = cpu_init(n_cpu);
 
-  /* COMIENZO Testing */
+  bool run = true;
+  int time = 0;
+  while (run)
+  {
+    /** Paso 0: Actualizo los estados de los procesos */
+    queue_process_checking(queue);
 
-  CPU *cpu_test;
-  cpu_test = cpu_init(n_cpu);
+    /** Paso 1: 
+     * Revisar procesos que terminaron en la cpu
+     * Liberar procesos finalizados de la cpu
+     * Revisar condición de termino
+     * */
+    queue_running_to_finished(queue);
+    core_free_finished_process(cpu);
+    if (queue->n_finished == queue->n_process)
+    {
+      break;
+    }
 
-  printf("/* Testeo comparaciónes */\n");
-  Process *proceso_prueba;
-  proceso_prueba = process_compare(lista_queue->process[2], lista_queue->process[1]);
-  printf("%s \n", proceso_prueba->name);
+    /** Paso 2: Buscar procesos que comiencen en el tiempo actual */
+    queue_inactive_to_ready(queue, time);
 
-  printf("/* Testeo mejor proceso de queue */\n");
-  queue_move_process(lista_queue, INACTIVE, 0, READY);
-  queue_move_process(lista_queue, INACTIVE, 1, READY);
-  queue_move_process(lista_queue, INACTIVE, 2, READY);
-  proceso_prueba = queue_best_process(lista_queue);
-  printf("%s \n", proceso_prueba->name);
+    /** Paso 3: Buscar procesos ready en la cola waiting */
+    queue_waiting_to_ready(queue);
 
-  printf("/* Testeo peor proceso de cpu */\n");
-  //cpu_add_process(cpu_test, 0, lista_queue->process[0]);
-  cpu_add_process(cpu_test, 1, lista_queue->process[1]);
-  cpu_add_process(cpu_test, 2, lista_queue->process[2]);
-  int resultado;
-  resultado = cpu_worst_process(cpu_test);
-  printf("%s \n", cpu_test->cores[resultado]->proceso_actual->name);
+    /** Paso 4: Scheduler */
 
-  /* FIN Testing */
+    bool run_scheduler = true;
+    while (run_scheduler)
+    {
+      if (!queue->n_ready)
+      {
+        break;
+      }
+      /** Mejor proceso de la cola ready */
+      Process *best_process = queue_best_process(queue);
+      /** Busco un core vacio */
+      int core_empty = cpu_core_empty(cpu);
+      if (core_empty != -1)
+      {
+        /** Asigno al core vacio */
+        cpu_add_process(cpu, core_empty, best_process);
+      }
+      else
+      {
+        /** Peor proceso de la cpu */
+        Process *worst_process = cpu_worst_process(cpu);
+        /** Comparamos los dos procesos */
+        Process *best_priority = process_compare(best_process, worst_process);
 
-  /* A continuacón se realiza el guardado y eliminado de todo*/
+        if (best_process == best_priority)
+        {
+          /** Se interrumpe el peor y se asigna el mejor */
+        }
+        else
+        {
+          run_scheduler = false;
+        }
+      }
+    }
 
-  free_cpu(cpu_test);
-  free_queue(lista_queue);
+    /** Paso 5: Paso al siguiente ciclo */
+    time++;
+  }
+
+  /** Paso 6: Imprimo el output y libero la memoria */
+  free_cpu(cpu);
+  free_queue(queue);
 }
 
 int main(int argc, char *argv[])
