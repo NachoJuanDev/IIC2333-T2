@@ -67,42 +67,24 @@ Process *process_compare(Process *process1, Process *process2)
   {
     return process1;
   }
-  else if (process1->deadline == process2->deadline)
+
+  if (process1->deadline == process2->deadline)
   {
     if (process1->pid <= process2->pid)
     {
       return process1;
     }
-    else
-    {
-      return process2;
-    }
-  }
-  else
-  {
     return process2;
   }
+  return process2;
 }
 
 Process *process_worst(Process *process1, Process *process2)
 {
-  if (process1->deadline > process2->deadline)
-  {
-    return process1;
-  }
-  else if (process1->deadline == process2->deadline)
-  {
-    if (process1->pid >= process2->pid)
-    {
-      return process1;
-    }
-    else
-    {
-      return process2;
-    }
-  }
-  else
+  Process *process = process_compare(process1, process2);
+  if (process == process1)
   {
     return process2;
   }
+  return process1;
 }
