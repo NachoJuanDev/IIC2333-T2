@@ -156,6 +156,16 @@ void queue_waiting_to_ready(Queue *queue)
   }
 }
 
+Process *queue_best_process(Queue *queue)
+{
+  Process *proceso_aux = queue->ready[0];
+  for (int i = 1; i < queue->n_ready; i++)
+  {
+    proceso_aux = process_compare(proceso_aux, queue->ready[i]);
+  }
+  return proceso_aux;
+}
+
 void free_queue(Queue *queue)
 {
   /** 

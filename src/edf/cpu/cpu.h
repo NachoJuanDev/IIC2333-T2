@@ -41,3 +41,6 @@ void free_cpu(CPU *cpu);
 
 /** Revisa si los procesos alojado en cpu para ver si terminaron y los quita */
 void core_free_finished_process(CPU *cpu);
+
+/* Encuentra el peor proceso de la cpu y devuelve el indice del core*/
+int cpu_worst_process(CPU *cpu);
