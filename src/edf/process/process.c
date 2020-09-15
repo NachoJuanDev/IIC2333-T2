@@ -60,3 +60,26 @@ void free_process(Process *process)
   free(process->behavior);
   free(process);
 }
+
+Process process_compare(Process *process1, Process *process2)
+{
+  if (process1->deadline > process2->deadline)
+  {
+    return process1;
+  }
+  if (process1->deadline == process2->deadline)
+  {
+    if (process1->pid >= process2->deadline)
+    {
+      return process1;
+    }
+    else
+    {
+      return process2;
+    }
+  }
+  if (process1->deadline < process2->deadline)
+  {
+    return process2;
+  }
+}

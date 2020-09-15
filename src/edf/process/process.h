@@ -60,11 +60,11 @@ struct process
 
 typedef enum state
 {
-  RUNNING, // Proceso corriendo en un CORE de CPU
-  READY, // Proceso listo para ser asignado a un CORE de CPU
-  WAITING, // Proceso en espera de I/O
+  RUNNING,  // Proceso corriendo en un CORE de CPU
+  READY,    // Proceso listo para ser asignado a un CORE de CPU
+  WAITING,  // Proceso en espera de I/O
   FINISHED, // Proceso Finalizado
-  INACTIVE // Por complitud. No ha sido cargado a la simulación y Se encuentran en la cola process
+  INACTIVE  // Por complitud. No ha sido cargado a la simulación y Se encuentran en la cola process
 } State;
 
 /** Inicia un proceso */
@@ -78,3 +78,6 @@ void free_process(Process *process);
 
 /** Revisa el proceso y se actualzia según su estado */
 void process_check(Process *process);
+
+/** Revisa cual proceso el masyor y retorna el mayor. */
+Process process_compare(Process *process1, Process *process2)
