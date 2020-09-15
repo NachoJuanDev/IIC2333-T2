@@ -10,7 +10,7 @@ variables de los procesos para simular el avance del tiempo de la simulación.)
     - CPU debe tener una referencia a los procesos (completo)
     - PROCESS Tiene que tener una variable que indique en que rafaga está y cuanto a avanzado de esa rafaga (completo)
     - PROCESS Tiene que tener un atributo que indique cuantas veces fue agregado a la cpu (completo)
-    - **PROCESS debe tener un método para actualizar sus estados y variables según en que state esté** (falta sólo el interior de la función, es llegar y ver que atributos deberían cambiar, por eso lo dejé vacío)
+    - PROCESS debe tener un método para actualizar sus estados y variables según en que state esté (completo)
 
     - QUEUE debe tener un método para recorrer la cola principal de todos los procesos y ejecutar el método anterior (completo)
 
@@ -74,7 +74,8 @@ Elegiría los mejores procesos de la cola READY según cantidad de núcleos (com
     - QUEUE debe tener un método que retorna el mejor proceso de la cola READY (DEBERIA FUNCIONAR)
     - CPU debe tener un método que retorna el peor proceso de sus cores (DEBERIA FUNCIONAR)
     - PROCESS debe tener un método que nos de la puntuación de un proceso o compare procesos entregando el mejor (DEBERIA FUNCIONAR)
-    - **CPU debe tener un método para interrumpir un proceso**
+    - CPU debe tener un método para interrumpir un proceso
+    - QUEUE debe tener un método para mover un proceso de una cola a otra recibiendo el puntero del proceso como referencia.
 
 * Implementación:
     - Obtenemos el mejor proceso de la cola READY, y vemos si lo podemos asiganr a un core
