@@ -94,12 +94,11 @@ void run(char *fileName, char *outputFile, int n_cpu)
 
   printf("/* test revisión de el core N*/\n");
   lista_queue->process[0]->state = FINISHED;
-  int resultado = core_free_finished_process(cpu_test, 0);
+  core_free_finished_process(cpu_test);
   if (cpu_test->cores[0]->proceso_actual == NULL)
   {
     printf("OLAAA \n");
   }
-  printf("%d \n", resultado);
 
   printf("/* Testing de revisar cola con tiempo actual y moverlos a ready*/\n");
   printf("%s \n", lista_queue->process[0]->name);

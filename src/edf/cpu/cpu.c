@@ -51,22 +51,17 @@ void free_cpu(CPU *cpu)
   free(cpu);
 }
 
-int core_free_finished_process(CPU *cpu, int n_core)
+void core_free_finished_process(CPU *cpu)
 {
-  if (cpu->cores[n_core]->proceso_actual)
+  for (int n_core = 0; n_core < cpu->n_cores; n_core++)
   {
-    if (cpu->cores[n_core]->proceso_actual->state == FINISHED)
+    if (cpu->cores[n_core]->proceso_actual)
     {
-      cpu->cores[n_core]->proceso_actual = NULL;
-      return 1;
+      if (cpu->cores[n_core]->proceso_actual->state == FINISHED)
+      {
+        cpu->cores[n_core]->proceso_actual->cpu = -1;
+        cpu->cores[n_core]->proceso_actual = NULL;
+      }
     }
-    else
-    {
-      return 0;
-    }
-  }
-  else
-  {
-    return 2;
   }
 }

@@ -104,33 +104,54 @@ void queue_move_process(Queue *queue, State source, int pos_source, State target
 
 void queue_inactive_to_ready(Queue *queue, int tiempo)
 {
-  for (int i = 0; i < queue->n_process; i++)
+  int i = 0;
+  int max = queue->n_process;
+  while (i < max)
   {
     if (queue->process[i]->start_time == tiempo)
     {
+      max--;
       queue_move_process(queue, INACTIVE, i, READY);
+    }
+    else
+    {
+      i++;
     }
   }
 }
 
 void queue_running_to_finished(Queue *queue)
 {
-  for (int i = 0; i < queue->n_running; i++)
+  int i = 0;
+  int max = queue->n_running;
+  while (i < queue->n_running)
   {
     if (queue->running[i]->state == FINISHED)
     {
+      max--;
       queue_move_process(queue, RUNNING, i, FINISHED);
+    }
+    else
+    {
+      i++;
     }
   }
 }
 
 void queue_waiting_to_ready(Queue *queue)
 {
-  for (int i = 0; i < queue->n_waiting; i++)
+  int i = 0;
+  int max = queue->n_waiting;
+  while (i < queue->n_waiting)
   {
     if (queue->waiting[i]->state == READY)
     {
+      max--;
       queue_move_process(queue, WAITING, i, READY);
+    }
+    else
+    {
+      i++;
     }
   }
 }
