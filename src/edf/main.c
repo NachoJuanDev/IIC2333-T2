@@ -128,7 +128,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
 
   /* Testeo peor proceso de cpu */
   printf("HOLA 3\n");
-  cpu_add_process(cpu_test, 0, lista_queue->process[0]);
+  //cpu_add_process(cpu_test, 0, lista_queue->process[0]);
   printf("HOLA 4\n");
   cpu_add_process(cpu_test, 1, lista_queue->process[1]);
   printf("HOLA 5\n");
