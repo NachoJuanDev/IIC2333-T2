@@ -69,11 +69,20 @@ Queue *populate_system(char *fileName)
 void write_output(char *outputFile, Queue *queue)
 {
   FILE *fp;
-  int myInt = 5;
   fp = fopen(outputFile, "w");
-  char *saludo = "HOLA,";
-  fprintf(fp, "%s This is being written in the file. This is an int variable: %d", saludo, myInt);
-  fclose(fp); // Hasta ésta línea hay código sacado de stackoverflow
+
+  for (int i = 0; i < queue->n_process; i++)
+  {
+    Process *process = queue->process[i];
+    process->turnaround = process->finish_time - process->start_time;
+    process->response = process->first_time - process->start_time;
+
+    fprintf(fp, "%s,%i,%i,%i,%i,%i,%i\n",
+            process->name, process->n_veces_agregado, process->n_veces_interrumpido,
+            process->turnaround, process->response, process->waiting, process->finished_correctly);
+  }
+
+  fclose(fp);
 }
 
 void run(char *fileName, char *outputFile, int n_cpu)
@@ -203,7 +212,7 @@ void run(char *fileName, char *outputFile, int n_cpu)
   printf("Terminó\n");
 
   /** Paso 6: Imprimo el output y libero la memoria */
-  //write_output(outputFile, queue);
+  write_output(outputFile, queue);
   free_cpu(cpu);
   free_queue(queue);
 }
