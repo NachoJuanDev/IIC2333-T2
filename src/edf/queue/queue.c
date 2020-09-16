@@ -22,11 +22,11 @@ Queue *queue_init(int n_process)
   return queue;
 }
 
-void queue_process_checking(Queue *queue)
+void queue_process_checking(Queue *queue, int time)
 {
   for (int i = 0; i < queue->n_process; i++)
   {
-    process_check(queue->process[i]);
+    process_check(queue->process[i], time);
   }
 }
 
@@ -104,40 +104,48 @@ void queue_move_process(Queue *queue, State source, int pos_source, State target
 
 void queue_move_process_pointer(Queue *queue, State source, Process *process, State target)
 {
-  Process **cola;
-  int n_cola;
   if (source == RUNNING)
   {
-    cola = queue->running;
-    n_cola = queue->n_running;
+    for (int i = 0; i < queue->n_running; i++)
+    {
+      if (queue->running[i]->pid == process->pid)
+      {
+        queue_move_process(queue, source, i, target);
+        break;
+      }
+    }
   }
   else if (source == READY)
   {
-    cola = queue->ready;
-    n_cola = queue->n_ready;
+    for (int i = 0; i < queue->n_ready; i++)
+    {
+      if (queue->ready[i]->pid == process->pid)
+      {
+        queue_move_process(queue, source, i, target);
+        break;
+      }
+    }
   }
   else if (source == WAITING)
   {
-    cola = queue->waiting;
-    n_cola = queue->n_waiting;
-  }
-  else if (source == FINISHED)
-  {
-    cola = queue->finished;
-    n_cola = queue->n_finished;
+    for (int i = 0; i < queue->n_waiting; i++)
+    {
+      if (queue->waiting[i]->pid == process->pid)
+      {
+        queue_move_process(queue, source, i, target);
+        break;
+      }
+    }
   }
   else if (source == INACTIVE)
   {
-    cola = queue->process;
-    n_cola = queue->n_process;
-  }
-
-  for (int i = 0; i < n_cola; i++)
-  {
-    if (cola[n_cola]->pid == process->pid)
+    for (int i = 0; i < queue->n_process; i++)
     {
-      queue_move_process(queue, source, i, target);
-      break;
+      if (queue->process[i]->pid == process->pid)
+      {
+        queue_move_process(queue, source, i, target);
+        break;
+      }
     }
   }
 }
@@ -145,13 +153,27 @@ void queue_move_process_pointer(Queue *queue, State source, Process *process, St
 void queue_inactive_to_ready(Queue *queue, int tiempo)
 {
   int i = 0;
-  int max = queue->n_process;
-  while (i < max)
+  while (i < queue->n_process)
   {
     if (queue->process[i]->start_time == tiempo)
     {
-      max--;
+      queue->process[i]->state = READY;
       queue_move_process(queue, INACTIVE, i, READY);
+    }
+    i++;
+  }
+}
+
+void queue_running_to_waiting(Queue *queue)
+{
+  int i = 0;
+  int max = queue->n_running;
+  while (i < max)
+  {
+    if (queue->running[i]->state == WAITING)
+    {
+      max--;
+      queue_move_process(queue, RUNNING, i, WAITING);
     }
     else
     {
@@ -164,7 +186,7 @@ void queue_running_to_finished(Queue *queue)
 {
   int i = 0;
   int max = queue->n_running;
-  while (i < queue->n_running)
+  while (i < max)
   {
     if (queue->running[i]->state == FINISHED)
     {
@@ -182,7 +204,7 @@ void queue_waiting_to_ready(Queue *queue)
 {
   int i = 0;
   int max = queue->n_waiting;
-  while (i < queue->n_waiting)
+  while (i < max)
   {
     if (queue->waiting[i]->state == READY)
     {
@@ -224,4 +246,13 @@ void free_queue(Queue *queue)
   free(queue->ready);
   free(queue->running);
   free(queue);
+}
+
+void queue_print(Process **cola, int n_cola)
+{
+  for (int i = 0; i < n_cola; i++)
+  {
+    printf("i: %i, Name: %s, State: %i, Rafaga: %i, Avance Rafaga: %i, n_Rafagas: %i \n",
+           i, cola[i]->name, cola[i]->state, cola[i]->current_rafaga, cola[i]->avance_rafaga ,cola[i]->n_behavior);
+  }
 }

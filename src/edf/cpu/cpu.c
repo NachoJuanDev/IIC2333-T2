@@ -37,11 +37,17 @@ int cpu_core_empty(CPU *cpu)
   return -1;
 }
 
-void cpu_add_process(CPU *cpu, int n_core, Process *process)
+void cpu_add_process(CPU *cpu, int n_core, Process *process, int time)
 {
   CORE *core = cpu->cores[n_core];
   core->proceso_actual = process;
   process->cpu = n_core;
+  process->state = RUNNING;
+  if (!process->n_veces_agregado)
+  {
+    process->first_time = time;
+  }
+  process->n_veces_agregado++;
 }
 
 void free_cpu(CPU *cpu)
@@ -52,6 +58,21 @@ void free_cpu(CPU *cpu)
   }
   free(cpu->cores);
   free(cpu);
+}
+
+void core_free_waiting_process(CPU *cpu)
+{
+  for (int n_core = 0; n_core < cpu->n_cores; n_core++)
+  {
+    if (cpu->cores[n_core]->proceso_actual)
+    {
+      if (cpu->cores[n_core]->proceso_actual->state == WAITING)
+      {
+        cpu->cores[n_core]->proceso_actual->cpu = -1;
+        cpu->cores[n_core]->proceso_actual = NULL;
+      }
+    }
+  }
 }
 
 void core_free_finished_process(CPU *cpu)
@@ -69,38 +90,24 @@ void core_free_finished_process(CPU *cpu)
   }
 }
 
-int cpu_worst_process(CPU *cpu)
+Process *cpu_worst_process(CPU *cpu)
 {
-  Process *proceso_aux;
-  int n = 0;
-  int existe = 0;
-  /* Primero hay que encontra algun proceso de la cpu */
-  while (n < cpu->n_cores)
+  Process *proceso_aux = cpu->cores[0]->proceso_actual;
+
+  for (int i = 0; i < cpu->n_cores; i++)
   {
-    if (cpu->cores[n]->proceso_actual != NULL)
+    if (cpu->cores[i]->proceso_actual != NULL)
     {
-      proceso_aux = cpu->cores[n]->proceso_actual;
-      n = cpu->n_cores;
-      existe = 1;
-    }
-    else
-    {
-      n++;
+      proceso_aux = process_worst(proceso_aux, cpu->cores[i]->proceso_actual);
     }
   }
-  if (existe)
-  {
-    for (int i = 0; i < cpu->n_cores; i++)
-    {
-      if (cpu->cores[i]->proceso_actual != NULL)
-      {
-        proceso_aux = process_worst(proceso_aux, cpu->cores[i]->proceso_actual);
-      }
-    }
-    return proceso_aux->cpu;
-  }
-  else
-  {
-    return -1;
-  }
+  return proceso_aux;
+}
+
+void cpu_interrumpt_process(CPU *cpu, int core)
+{
+  Process *process = cpu->cores[core]->proceso_actual;
+  process->cpu = -1;
+  process->n_veces_interrumpido++;
+  cpu->cores[core]->proceso_actual = NULL;
 }

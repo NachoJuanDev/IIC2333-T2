@@ -36,10 +36,16 @@ struct process
   /** Número de veces que el proceso fue interrumpido */
   int interruptions;
 
-  /** El turnaround time */
+  /** El turnaround time finish_time - start_time */
   int turnaround;
 
-  /** El response time */
+  /** Tiempo en el cual terminó */
+  int finish_time;
+
+  /** Tiempo en que fue atendido por primera vez */
+  int first_time;
+
+  /** El response time first_time - start_time */
   int response;
 
   /** El waiting time */
@@ -56,6 +62,9 @@ struct process
 
   /** Indicador de cuantas veces fue agregado a la cpu */
   int n_veces_agregado;
+
+  /** Indicador de cuantas veces fue interrumpido */
+  int n_veces_interrumpido;
 };
 
 typedef enum state
@@ -77,7 +86,7 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior);
 void free_process(Process *process);
 
 /** Revisa el proceso y se actualzia según su estado */
-void process_check(Process *process);
+void process_check(Process *process, int time);
 
 /** Revisa dos procesos y el proceso con mejor prioridad y lo retorna. */
 Process *process_compare(Process *process1, Process *process2);

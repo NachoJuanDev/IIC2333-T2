@@ -23,6 +23,8 @@ Process *process_init(pid_t pid, char *name, int deadline, int start_time, int s
   process->waiting = 0;
   process->avance_rafaga = 0;
   process->current_rafaga = 0;
+  process->n_veces_agregado = 0;
+  process->n_veces_interrumpido = 0;
 
   return process;
 }
@@ -37,7 +39,7 @@ void process_add_behavior(Process *process, int n_behavior, int *behavior)
   }
 }
 
-void process_check(Process *process)
+void process_check(Process *process, int time)
 {
   if (process->state == RUNNING)
   {
@@ -49,6 +51,8 @@ void process_check(Process *process)
       if (process->current_rafaga == process->n_behavior)
       {
         process->state = FINISHED;
+        process->finish_time = time;
+        process->finished_correctly = process->deadline >= time;
       }
       else
       {
@@ -56,11 +60,11 @@ void process_check(Process *process)
       }
     }
   }
-  if (process->state == READY)
+  else if (process->state == READY)
   {
     process->waiting++;
   }
-  if (process->state == WAITING)
+  else if (process->state == WAITING)
   {
     process->avance_rafaga++;
     process->waiting++;
